@@ -267,8 +267,12 @@
     .site-foot { margin-top: auto; }
     .legal {
       padding: 18px 16px calc(22px + env(safe-area-inset-bottom));
-      text-align: center; color: var(--muted); font-size: .9rem; line-height: 1.6;
+      text-align: center; color: var(--muted); line-height: 1.6;
+      font-size: min(.9rem, calc((100vw - 32px) / 37)); white-space: nowrap;
+      opacity: .75;
     }
+    .legal .sep { margin: 0 .4em; opacity: .6; }
+    @media (max-width: 520px) { .legal { font-size: min(.9rem, calc((100vw - 32px) / 28.5)); } .legal .rr { display: none; } }
 
     @media (prefers-reduced-motion: reduce) {
       .stamp-btn img { animation: none !important; }
@@ -363,8 +367,7 @@
     </section>
     <footer class="site-foot">
       <div class="legal">
-        &copy; <span id="yr">2026</span> Sanctioned Spirits. All rights reserved.<br>
-        You must be 21 or older to purchase alcohol.
+        &copy; <span id="yr">2026</span> Sanctioned Spirits.<span class="rr"> All rights reserved.</span> <span class="sep" aria-hidden="true">|</span> You must be 21 or older to purchase alcohol.
       </div>
     </footer>
   </main>
