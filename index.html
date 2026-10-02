@@ -166,16 +166,20 @@
     .dropdown a:hover, .dropdown a[aria-current="page"] { color: var(--red); }
 
     /* ================= Hero ================= */
-    .site { opacity: 0; transition: opacity .7s ease .3s; }
+    .site {
+      min-height: 100vh; min-height: 100svh;
+      display: flex; flex-direction: column;
+      opacity: 0; transition: opacity .7s ease .3s;
+    }
     body.entered .site { opacity: 1; }
     .hero {
-      min-height: 100vh; min-height: 100svh;
+      flex: 1 0 auto;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       gap: 18px; text-align: center;
       padding: calc(var(--header-h) + 32px) 0 48px;
-      transition: min-height .7s var(--ease), padding .7s var(--ease);
+      transition: flex-grow .7s var(--ease), padding .7s var(--ease);
     }
-    body.has-view .hero { min-height: 0; padding: calc(var(--header-h) + clamp(28px, 6vw, 56px)) 0 clamp(24px, 4vw, 40px); }
+    body.has-view .hero { flex-grow: .0001; padding: calc(var(--header-h) + clamp(28px, 6vw, 56px)) 0 clamp(24px, 4vw, 40px); }
     .hero h1 {
       font-family: var(--stamp); font-weight: 800;
       font-size: min(calc((100vw - 40px) / 13.8), 5rem); line-height: 1; white-space: nowrap;
@@ -190,6 +194,7 @@
 
     /* ================= Content panels ================= */
     .panel {
+      flex: none;
       width: min(100% - 32px, 760px); margin: 0 auto;
       padding: 0 0 calc(64px + env(safe-area-inset-bottom));
     }
@@ -257,6 +262,27 @@
     .form-status { font-weight: 600; }
     .form-status.ok { color: var(--denim); }
     .form-status.err { color: var(--red); }
+
+    /* ================= Footer ================= */
+    .site-foot { margin-top: auto; }
+    .bandana {
+      background:
+        radial-gradient(circle, #fff 2px, transparent 2.4px) 0 0 / 20px 20px,
+        radial-gradient(circle, #fff 1.1px, transparent 1.5px) 10px 10px / 20px 20px,
+        var(--red);
+      border-top: 3px solid var(--ink); border-bottom: 3px solid var(--ink);
+      padding: 16px 16px;
+      text-align: center;
+    }
+    .bandana p {
+      display: inline-block; background: var(--red); padding: 3px 14px;
+      font-family: var(--stamp); font-weight: 800; text-transform: uppercase;
+      font-size: clamp(.95rem, 3.6vw, 1.35rem); letter-spacing: .04em; color: #fff;
+    }
+    .legal {
+      padding: 18px 16px calc(22px + env(safe-area-inset-bottom));
+      text-align: center; color: var(--muted); font-size: .9rem; line-height: 1.6;
+    }
 
     @media (prefers-reduced-motion: reduce) {
       .stamp-btn img { animation: none !important; }
@@ -349,6 +375,13 @@
         </div>
       </form>
     </section>
+    <footer class="site-foot">
+      <div class="bandana"><p>Stay loud. Drink responsibly.</p></div>
+      <div class="legal">
+        &copy; <span id="yr">2026</span> Sanctioned Spirits. All rights reserved.<br>
+        You must be 21 or older to purchase alcohol.
+      </div>
+    </footer>
   </main>
 
   <script>
@@ -483,6 +516,8 @@
       document.addEventListener("keydown", function (e) {
         if (e.key === "Escape" && body.classList.contains("menu-open")) { closeMenu(); menuBtn.focus(); }
       });
+
+      document.getElementById("yr").textContent = new Date().getFullYear();
 
       /* ---- Contact form → email via FormSubmit ---- */
       var FORM_ENDPOINT = "https://formsubmit.co/ajax/aa084c9af77398ab26785fed16fed16faabb9";
