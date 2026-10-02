@@ -204,13 +204,13 @@
     .panel h2::before, .panel h2::after { content: ""; flex: 1; border-top: 2px dashed var(--thread); }
 
     /* Brands: logo slots (swap the text for <img> logos later) */
-    .brands { list-style: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(14px, 3vw, 28px); }
-    @media (min-width: 600px) { .brands { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .brands { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(12px, 3vw, 24px); }
     .brand {
-      aspect-ratio: 16 / 10;
-      display: grid; place-items: center;
+      width: clamp(150px, 42vw, 240px);
+      height: clamp(84px, 23vw, 120px);
+      display: flex; align-items: center; justify-content: center;
       border: 2px solid var(--ink);
-      padding: 10% 9%;
+      padding: 12px 14px;
       background: var(--paper);
       transition: transform .2s ease, box-shadow .2s ease;
     }
@@ -221,7 +221,7 @@
       -webkit-mask-image: var(--distress); mask-image: var(--distress);
       -webkit-mask-size: 200px; mask-size: 200px;
     }
-    .brand img { width: 100%; height: auto; max-height: 100%; object-fit: contain; }
+    .brand img { width: auto; height: auto; max-width: 100%; max-height: 100%; }
 
     /* Contact form */
     .contact-form { display: grid; gap: 16px; grid-template-columns: 1fr; }
