@@ -114,7 +114,9 @@
     .gate {
       position: fixed;
       inset: 0;
-      background: rgba(255, 255, 255, 0.98);
+      background: rgba(255, 255, 255, 0.35);
+      -webkit-backdrop-filter: blur(1.5px);
+              backdrop-filter: blur(1.5px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -125,37 +127,37 @@
     .gate-box {
       background: var(--panel);
       border: 1px solid #e6e2dc;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
       border-top: 3px solid var(--red);
-      max-width: 420px;
+      max-width: 280px;
       width: 100%;
-      padding: 40px 28px;
+      padding: 20px 20px 18px;
       text-align: center;
     }
     .gate-box h2 {
       font-family: "Oswald", sans-serif;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      font-size: 1.4rem;
-      margin-bottom: 12px;
+      font-size: 1.05rem;
+      margin-bottom: 14px;
     }
-    .gate-box p { color: var(--muted); margin-bottom: 28px; line-height: 1.5; }
-    .gate-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .gate-box p { color: var(--muted); margin-bottom: 0; line-height: 1.4; font-size: 0.85rem; }
+    .gate-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
     .btn {
       font-family: "Oswald", sans-serif;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      font-size: 0.95rem;
-      padding: 12px 28px;
+      font-size: 0.85rem;
+      padding: 8px 0;
       border: 1px solid var(--red);
       cursor: pointer;
-      min-width: 120px;
+      flex: 1;
     }
     .btn-yes { background: var(--red); color: #fff; }
     .btn-yes:hover { background: #a50d26; }
     .btn-no { background: transparent; color: var(--text); border-color: #bbb; }
     .btn-no:hover { border-color: var(--text); }
-    .gate-denied { color: var(--red) !important; margin-top: 20px; margin-bottom: 0 !important; }
+    .gate-denied { color: var(--red) !important; margin-top: 12px; margin-bottom: 0 !important; }
     body.locked { overflow: hidden; }
   </style>
 </head>
@@ -165,7 +167,6 @@
   <div class="gate" id="ageGate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
     <div class="gate-box">
       <h2 id="gateTitle">Are you 21 or older?</h2>
-      <p>You must be of legal drinking age to enter this site.</p>
       <div class="gate-actions">
         <button class="btn btn-yes" id="gateYes">Yes</button>
         <button class="btn btn-no" id="gateNo">No</button>
