@@ -422,14 +422,18 @@
         });
         window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
       }
-      window.addEventListener("hashchange", function () {
+      /* Update the address bar when the browser allows it (some previews block this) */
+      function setUrl(name) {
+        try { history.pushState({ view: name }, "", name ? "#" + name : location.pathname + location.search); } catch (err) {}
+      }
+      window.addEventListener("popstate", function () {
         if (body.classList.contains("landed")) showView(location.hash.replace("#", ""));
       });
 
       function goHome(e) {
         e.preventDefault();
         closeMenu();
-        if (location.hash) history.pushState("", document.title, location.pathname + location.search);
+        setUrl("");
         showView("");
       }
       document.querySelector(".wordmark").addEventListener("click", goHome);
@@ -459,8 +463,10 @@
       });
       dropdown.querySelectorAll("a").forEach(function (a) {
         a.addEventListener("click", function (e) {
+          e.preventDefault();
           closeMenu();
-          if (location.hash === "#" + a.dataset.view) { e.preventDefault(); showView(a.dataset.view); }
+          setUrl(a.dataset.view);
+          showView(a.dataset.view);
         });
       });
       document.addEventListener("click", function (e) {
