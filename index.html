@@ -387,7 +387,7 @@
         entered = true;
         body.classList.add("entered");
         window.scrollTo(0, 0);
-        if (reduce || !stampBtn.animate) { land(); return; }
+        if (!stampBtn.animate) { land(); return; }
 
         var from = stampBtn.getBoundingClientRect();
         var to = homeLogo.getBoundingClientRect();
@@ -447,7 +447,7 @@
       homeLogo.addEventListener("click", function (e) {
         goHome(e);
         var img = homeLogo.querySelector("img");
-        if (!reduce && img.animate) {
+        if (img.animate) {
           img.animate([{ transform: "rotate(-4deg)" }, { transform: "rotate(356deg)" }],
             { duration: 700, easing: "cubic-bezier(.3,0,.2,1)" });
         }
