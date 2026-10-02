@@ -137,7 +137,7 @@
       justify-self: end; width: 44px; height: 44px; cursor: pointer;
       background: none; border: 0; display: grid; place-content: center; gap: 6px;
     }
-    .menu-btn span { display: block; width: 26px; height: 3px; background: var(--ink); transition: transform .3s ease, opacity .2s ease; }
+    .menu-btn span { display: block; width: 26px; height: 3px; background: var(--red); transition: transform .3s ease, opacity .2s ease; }
     body.menu-open .menu-btn span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
     body.menu-open .menu-btn span:nth-child(2) { opacity: 0; }
     body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
@@ -178,15 +178,6 @@
     body.entered .site { opacity: 1; }
     .wrap { width: min(100% - 32px, 1080px); margin-inline: auto; }
 
-    .hero { padding: calc(var(--header-h) + clamp(56px, 12vw, 120px)) 0 clamp(56px, 10vw, 110px); }
-    .hero h1 {
-      font-family: var(--slab); font-weight: 400;
-      font-size: clamp(3.2rem, 13vw, 8.5rem); line-height: .92; letter-spacing: -.01em;
-      color: var(--ink); max-width: 9ch;
-      -webkit-mask-image: var(--distress); mask-image: var(--distress);
-      -webkit-mask-size: 260px; mask-size: 260px;
-    }
-    .hero p { margin-top: 28px; max-width: 36ch; font-size: clamp(1.15rem, 2.6vw, 1.4rem); font-weight: 500; }
 
     /* Rap sheet — a booking card */
     .rap { padding: clamp(32px, 6vw, 64px) 0; }
@@ -280,20 +271,18 @@
       display: flex; align-items: center; justify-content: center; text-align: center;
       padding: calc(var(--header-h) + 32px) 16px 48px;
     }
+    .hero { flex-direction: column; gap: 22px; }
     .hero h1 {
-      display: grid; gap: .35em; justify-items: center;
       font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 800;
+      font-size: clamp(2rem, 9.2vw, 5.75rem); line-height: .98; letter-spacing: -.005em;
+      text-transform: uppercase; color: var(--red);
       -webkit-mask-image: var(--distress); mask-image: var(--distress);
       -webkit-mask-size: 240px; mask-size: 240px;
     }
-    .hero-name {
-      font-size: clamp(2.5rem, 10vw, 6.5rem); line-height: .95; letter-spacing: -.01em;
-      color: var(--ink); text-transform: uppercase;
-    }
-    .hero-line {
-      font-family: var(--slab); font-weight: 400;
-      font-size: clamp(1.15rem, 3.6vw, 2rem); letter-spacing: .02em;
-      color: var(--red);
+    .hero-sub {
+      max-width: 34ch;
+      font-size: clamp(1.1rem, 2.6vw, 1.4rem); font-weight: 500; line-height: 1.45;
+      color: var(--ink);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -350,7 +339,8 @@
   <!-- Main site -->
   <main class="site" id="top">
     <section class="hero">
-      <h1><span class="hero-name">Sanctioned Spirits</span><span class="hero-line">House of the Rebellious</span></h1>
+      <h1>House of the <br>Rebellious</h1>
+      <p class="hero-sub">A curated collection of brands that stoke the spirit of rebellion.</p>
     </section>
   </main>
 
