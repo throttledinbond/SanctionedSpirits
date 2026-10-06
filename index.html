@@ -446,21 +446,26 @@
         var dx = (to.left + to.width / 2) - (from.left + from.width / 2);
         var dy = (to.top + to.height / 2) - (from.top + from.height / 2);
         var s = to.width / from.width;
-        var ease = "cubic-bezier(.65,0,.25,1)";
+        var T = 950, HIT = 0.78;
+        var shadowUp = "drop-shadow(0 50px 35px rgba(28,34,48,.25))";
+        var shadowOff = "drop-shadow(0 0 0 rgba(28,34,48,0))";
 
-        stampImg.style.animation = "none";
-        stampImg.animate(
-          [{ transform: "rotate(-4deg)" }, { transform: "rotate(716deg)" }],
-          { duration: 1200, easing: ease, fill: "forwards" }
-        );
-        stampBtn.animate(
-          [
-            { transform: "translate(0, 0) scale(1)" },
-            { transform: "translate(0, 0) scale(1.06)", offset: 0.18 },
-            { transform: "translate(" + dx + "px," + dy + "px) scale(" + s + ")" }
-          ],
-          { duration: 1200, easing: ease, fill: "forwards" }
-        ).onfinish = land;
+        /* Lift the stamp off the page, carry it up to the header, and slam it down there */
+        stampBtn.animate([
+          { transform: "translate(0,0) scale(1) rotate(0deg)", filter: shadowOff, offset: 0, easing: "cubic-bezier(.2,.8,.3,1)" },
+          { transform: "translate(" + dx * 0.12 + "px," + dy * 0.12 + "px) scale(1.28) rotate(7deg)", filter: shadowUp, offset: 0.3, easing: "cubic-bezier(.7,0,1,.55)" },
+          { transform: "translate(" + dx + "px," + dy + "px) scale(" + s * 0.88 + ") rotate(-1deg)", filter: shadowOff, offset: HIT, easing: "cubic-bezier(.2,.8,.3,1)" },
+          { transform: "translate(" + dx + "px," + dy + "px) scale(" + s * 1.05 + ") rotate(0deg)", offset: 0.9 },
+          { transform: "translate(" + dx + "px," + dy + "px) scale(" + s + ") rotate(0deg)", filter: shadowOff, offset: 1 }
+        ], { duration: T, fill: "forwards" }).onfinish = land;
+
+        setTimeout(function () {
+          document.querySelector(".site-header").animate([
+            { transform: "translate(0,0)" }, { transform: "translate(-3px,3px)" },
+            { transform: "translate(3px,-2px)" }, { transform: "translate(-1px,1px)" },
+            { transform: "translate(0,0)" }
+          ], { duration: 240, easing: "ease-out" });
+        }, T * HIT);
       }
       stampBtn.addEventListener("click", enter);
 
