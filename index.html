@@ -95,13 +95,9 @@
     }
     .stamp-btn img { width: 100%; height: auto; transform: rotate(-4deg); }
     .js body:not(.slammed) .stamp-btn { opacity: 0; }
-    @keyframes rock {
-      0%, 100% { transform: rotate(-4deg); }
-      25%      { transform: rotate(-11deg); }
-      75%      { transform: rotate(3deg); }
-    }
+    .stamp-btn img { transition: transform .25s ease; }
     @media (hover: hover) {
-      body:not(.entered) .stamp-btn:hover img { animation: rock .9s ease-in-out infinite; }
+      body.slammed:not(.entered) .stamp-btn:hover img { transform: rotate(-4deg) scale(1.04); }
     }
     .intro-hint {
       font-weight: 600; font-size: .95rem; letter-spacing: .06em; color: var(--muted);
@@ -280,7 +276,6 @@
     @media (max-width: 520px) { .legal { font-size: min(.9rem, calc((100vw - 32px) / 28.5)); } .legal .rr { display: none; } }
 
     @media (prefers-reduced-motion: reduce) {
-      .stamp-btn img { animation: none !important; }
       .hero, .dropdown, .brand { transition: none; }
       .panel.show { animation: none; }
     }
