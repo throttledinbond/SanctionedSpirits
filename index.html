@@ -134,6 +134,21 @@
       white-space: nowrap; color: var(--ink);
     }
 
+    .hero-cta {
+      margin-top: 10px;
+      display: inline-block;
+      font-family: var(--stamp); font-weight: 800; text-transform: uppercase;
+      font-size: 1rem; letter-spacing: .05em; line-height: 1;
+      color: #fff; background: var(--red); text-decoration: none;
+      border: 2px solid var(--red);
+      padding: 14px 26px;
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, opacity .3s ease;
+    }
+    .hero-cta:hover { background: var(--red-dark); border-color: var(--red-dark); transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+    .hero-cta:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+    body.has-view .hero-cta { display: none; }
+
     /* ================= Content panels ================= */
     .panel {
       flex: none;
@@ -277,6 +292,7 @@
       </div>
       <h1>House of the Rebellious</h1>
       <p class="hero-sub">A curated collection of brands that stoke the spirit of rebellion.</p>
+      <a class="hero-cta" id="heroCta" href="#brands">See Our Brands</a>
     </section>
 
     <section class="panel" id="panel-brands" aria-labelledby="brandsTitle" hidden>
@@ -457,6 +473,12 @@
           var openTile = document.querySelector(".brand.open");
           if (openTile) { closeBrands(); openTile.querySelector(".brand-trigger").focus(); }
         }
+      });
+
+      document.getElementById("heroCta").addEventListener("click", function (e) {
+        e.preventDefault();
+        setUrl("brands");
+        showView("brands");
       });
 
       /* ---- Dropdown ---- */
