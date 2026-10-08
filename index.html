@@ -44,37 +44,6 @@
     button, input, textarea { font: inherit; color: inherit; }
     :focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
 
-    /* ================= Age gate ================= */
-    .gate {
-      position: fixed; inset: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: center;
-      padding: 16px;
-      background: rgba(255, 255, 255, 0.4);
-      transition: opacity .3s ease;
-    }
-    .js .gate:not(.show) { opacity: 0; }
-    .gate[hidden] { display: none; }
-    .gate-box {
-      width: 100%; max-width: 280px;
-      background: var(--paper);
-      border: 1px solid #e3e1dc;
-      border-top: 3px solid var(--red);
-      box-shadow: 0 8px 30px rgba(28, 34, 48, 0.14);
-      padding: 20px 20px 18px;
-      text-align: center;
-    }
-    .gate-box h2 { font-family: var(--stamp); font-weight: 800; font-size: 1.1rem; margin-bottom: 14px; }
-    .gate-actions { display: flex; gap: 10px; }
-    .gate-btn {
-      flex: 1; padding: 8px 0; cursor: pointer;
-      font-weight: 700; font-size: .95rem; letter-spacing: .08em;
-      border: 1px solid var(--red);
-    }
-    .gate-yes { background: var(--red); color: #fff; }
-    .gate-yes:hover { background: var(--red-dark); }
-    .gate-no { background: transparent; border-color: #b9b6ae; }
-    .gate-no:hover { border-color: var(--ink); }
-    .gate-denied { color: var(--red); font-size: .85rem; margin-top: 12px; }
 
     /* ================= Intro (stamp splash) ================= */
     .intro {
@@ -310,18 +279,6 @@
 </head>
 <body class="locked">
 
-  <!-- Age gate -->
-  <div class="gate" id="ageGate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
-    <div class="gate-box">
-      <h2 id="gateTitle">Are you 21 or older?</h2>
-      <div class="gate-actions">
-        <button class="gate-btn gate-yes" id="gateYes" type="button">YES</button>
-        <button class="gate-btn gate-no" id="gateNo" type="button">NO</button>
-      </div>
-      <p class="gate-denied" id="gateDenied" hidden>Come back when you're 21.</p>
-    </div>
-  </div>
-
   <!-- Intro splash -->
   <div class="intro" id="intro">
     <button class="stamp-btn" id="stampBtn" type="button" aria-label="Enter Sanctioned Spirits">
@@ -422,10 +379,6 @@
       /* ---- Landing: the stamp slams down onto the page ---- */
       var slamBtn = document.getElementById("stampBtn");
       var introEl = document.getElementById("intro");
-      function afterImpact() {
-        var g = document.getElementById("ageGate");
-        if (!g.hidden) g.classList.add("show");
-      }
       function slammed() { body.classList.add("slammed"); }
       if (slamBtn.animate) {
         var T = 900, HIT = 0.62;
@@ -442,27 +395,11 @@
             { transform: "translate(4px,-3px)" }, { transform: "translate(-2px,2px)" },
             { transform: "translate(0,0)" }
           ], { duration: 280, easing: "ease-out" });
-          afterImpact();
         }, T * HIT);
         slam.onfinish = function () { slammed(); slam.cancel(); };
       } else {
-        slammed(); afterImpact();
+        slammed();
       }
-
-      /* ---- Age gate ---- */
-      var KEY = "sanctioned_age_ok";
-      var gate = document.getElementById("ageGate");
-      var ok = false;
-      try { ok = localStorage.getItem(KEY) === "1"; } catch (e) {}
-      if (ok) gate.hidden = true;
-      document.getElementById("gateYes").addEventListener("click", function () {
-        try { localStorage.setItem(KEY, "1"); } catch (e) {}
-        gate.hidden = true;
-        document.getElementById("stampBtn").focus();
-      });
-      document.getElementById("gateNo").addEventListener("click", function () {
-        document.getElementById("gateDenied").hidden = false;
-      });
 
       /* ---- Intro: spin the stamp into the header ---- */
       var stampBtn = document.getElementById("stampBtn");
@@ -477,7 +414,7 @@
       }
 
       function enter() {
-        if (entered || !gate.hidden) return;
+        if (entered) return;
         entered = true;
         body.classList.add("entered");
         window.scrollTo(0, 0);
