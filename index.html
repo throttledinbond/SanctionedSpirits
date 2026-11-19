@@ -206,6 +206,8 @@
       transition: opacity .16s ease, transform .16s ease, visibility 0s linear .16s;
     }
     .brand:nth-child(even) .brand-links { left: auto; right: -2px; }
+    /* invisible bridge over the gap so the menu stays open while the mouse moves down to it */
+    .brand-links::before { content: ""; position: absolute; left: -2px; right: -2px; top: -14px; height: 14px; }
     .brand.open .brand-links { opacity: 1; transform: none; visibility: visible; transition: opacity .16s ease, transform .16s ease; }
     .brand-links li + li { border-top: 2px dashed var(--thread); }
     .brand-links a {
@@ -466,7 +468,7 @@
         }
       });
 
-      /* ---- Brand tiles: tap a logo to open its links ---- */
+      /* ---- Brand tiles: hover (mouse) or tap a logo to open its links ---- */
       var brandTiles = document.querySelectorAll(".brand");
       function closeBrands(except) {
         brandTiles.forEach(function (t) {
@@ -479,12 +481,32 @@
       brandTiles.forEach(function (tile) {
         var btn = tile.querySelector(".brand-trigger");
         if (!btn) return;
+        function setOpen(open) {
+          if (open) closeBrands(tile);
+          tile.classList.toggle("open", open);
+          btn.setAttribute("aria-expanded", String(open));
+        }
+        // Mouse: open on hover, close shortly after the pointer leaves the tile and its menu
+        var hoverTimer = null, lastPointer = "";
+        tile.addEventListener("pointerenter", function (e) {
+          if (e.pointerType !== "mouse") return;
+          clearTimeout(hoverTimer);
+          setOpen(true);
+        });
+        tile.addEventListener("pointerleave", function (e) {
+          if (e.pointerType !== "mouse") return;
+          clearTimeout(hoverTimer);
+          hoverTimer = setTimeout(function () { setOpen(false); }, 180);
+        });
+        btn.addEventListener("pointerdown", function (e) { lastPointer = e.pointerType; });
+        // Touch / keyboard: tap or Enter toggles; a mouse click just keeps it open
         btn.addEventListener("click", function (e) {
           e.stopPropagation();
-          closeBrands(tile);
-          var open = tile.classList.toggle("open");
-          btn.setAttribute("aria-expanded", String(open));
-          if (open) { var first = tile.querySelector(".brand-links a"); if (first) first.focus({ preventScroll: true }); }
+          if (lastPointer === "mouse") { lastPointer = ""; setOpen(true); return; }
+          lastPointer = "";
+          var open = !tile.classList.contains("open");
+          setOpen(open);
+          if (open && e.detail === 0) { var first = tile.querySelector(".brand-links a"); if (first) first.focus({ preventScroll: true }); }
         });
         tile.querySelectorAll(".brand-links a").forEach(function (a) {
           a.addEventListener("click", function () { closeBrands(); });
